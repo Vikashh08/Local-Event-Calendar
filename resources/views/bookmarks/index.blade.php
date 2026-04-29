@@ -20,7 +20,7 @@
                         </form>
 
                         <a href="{{ route('events.show', $event) }}" class="block">
-                            <div class="h-48 bg-gradient-to-br from-indigo-500 to-purple-600 relative overflow-hidden">
+                            <div class="h-48 bg-gradient-to-br from-gray-800 to-gray-800 relative overflow-hidden">
                                 <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300"></div>
                                 <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
                                     <h3 class="text-xl font-bold text-white leading-tight drop-shadow-md">{{ $event->title }}</h3>
@@ -30,7 +30,7 @@
                         <div class="p-6">
                             <div class="flex items-center text-sm text-gray-500 mb-4 space-x-4">
                                 <div class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-4 h-4 mr-1.5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     {{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                         <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
                         <h3 class="text-xl font-medium text-gray-900 mb-1">No saved events</h3>
                         <p class="text-gray-500 text-center">You haven't bookmarked any events yet. Explore events to save them here!</p>
-                        <a href="{{ route('events.index') }}" class="mt-4 text-indigo-600 hover:text-indigo-800 font-medium text-sm border border-indigo-600 rounded-full px-4 py-2 hover:bg-indigo-50 transition">Discover Events</a>
+                        <a href="{{ route('events.index') }}" class="mt-4 text-gray-900 hover:text-black font-medium text-sm border border-gray-900 rounded-full px-4 py-2 hover:bg-gray-100 transition">Discover Events</a>
                     </div>
                 @endforelse
             </div>

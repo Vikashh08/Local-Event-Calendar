@@ -33,12 +33,12 @@
                         
                         <div>
                             <label for="title" class="block text-sm font-bold text-gray-700">Event Title <span class="text-red-500">*</span></label>
-                            <input type="text" name="title" id="title" value="{{ old('title') }}" required class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-shadow">
+                            <input type="text" name="title" id="title" value="{{ old('title') }}" required class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                         </div>
 
                         <div>
                             <label for="category_id" class="block text-sm font-bold text-gray-700">Category</label>
-                            <select name="category_id" id="category_id" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-shadow">
+                            <select name="category_id" id="category_id" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                                 <option value="">Select a category</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
@@ -49,29 +49,29 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="date" class="block text-sm font-bold text-gray-700">Date <span class="text-red-500">*</span></label>
-                                <input type="date" name="date" id="date" value="{{ old('date') }}" required class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-shadow">
+                                <input type="date" name="date" id="date" value="{{ old('date') }}" required class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                             </div>
                             <div>
                                 <label for="time" class="block text-sm font-bold text-gray-700">Time <span class="text-red-500">*</span></label>
-                                <input type="time" name="time" id="time" value="{{ old('time') }}" required class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-shadow">
+                                <input type="time" name="time" id="time" value="{{ old('time') }}" required class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                             </div>
                         </div>
 
                         <div>
                             <label for="location" class="block text-sm font-bold text-gray-700">Location</label>
-                            <input type="text" name="location" id="location" value="{{ old('location') }}" placeholder="Venue name or address" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-shadow">
+                            <input type="text" name="location" id="location" value="{{ old('location') }}" placeholder="Venue name or address" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                         </div>
 
                         <div>
                             <label for="description" class="block text-sm font-bold text-gray-700">Description</label>
-                            <textarea name="description" id="description" rows="5" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-shadow">{{ old('description') }}</textarea>
+                            <textarea name="description" id="description" rows="5" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">{{ old('description') }}</textarea>
                         </div>
 
                         <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-100">
-                            <a href="{{ route('events.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                            <a href="{{ route('events.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                                 Cancel
                             </a>
-                            <button type="submit" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:from-indigo-700 hover:to-purple-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            <button type="submit" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-900 to-gray-800 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:from-black hover:to-gray-900 focus:bg-black active:bg-black focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 transition ease-in-out duration-150 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                                 Create Event
                             </button>
                         </div>
