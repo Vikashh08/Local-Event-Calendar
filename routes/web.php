@@ -6,9 +6,14 @@ use App\Http\Controllers\RsvpController;
 use App\Http\Controllers\BookmarkController;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Event;
+use App\Models\Category;
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    $upcomingEvents = Event::with('category')->whereDate('date', '>=', now())->orderBy('date', 'asc')->take(6)->get();
+    $categories = Category::all();
+    return view('welcome', compact('upcomingEvents', 'categories'));
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
