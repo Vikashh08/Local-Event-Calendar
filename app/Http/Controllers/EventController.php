@@ -42,7 +42,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->role !== 'organizer' && Auth::user()->role !== 'admin') {
+        if (!Auth::user()->can('create', Event::class)) {
             return redirect()->route('events.index')->with('error', 'Only organizers can create events.');
         }
 
@@ -55,7 +55,7 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        if (Auth::user()->role !== 'organizer' && Auth::user()->role !== 'admin') {
+        if (!Auth::user()->can('create', Event::class)) {
             return redirect()->route('events.index')->with('error', 'Only organizers can create events.');
         }
 
@@ -78,7 +78,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        if (Auth::user()->role !== 'admin' && Auth::id() !== $event->user_id) {
+        if (!Auth::user()->can('update', $event)) {
             return redirect()->route('events.index')->with('error', 'Unauthorized action.');
         }
 
@@ -91,7 +91,7 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        if (Auth::user()->role !== 'admin' && Auth::id() !== $event->user_id) {
+        if (!Auth::user()->can('update', $event)) {
             return redirect()->route('events.index')->with('error', 'Unauthorized action.');
         }
 
@@ -105,7 +105,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        if (Auth::user()->role !== 'admin' && Auth::id() !== $event->user_id) {
+        if (!Auth::user()->can('delete', $event)) {
             return redirect()->route('events.index')->with('error', 'Unauthorized action.');
         }
 
