@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RsvpConfirmation;
 
 class RsvpController extends Controller
 {
@@ -18,6 +20,8 @@ class RsvpController extends Controller
             ['user_id' => Auth::id()],
             ['status' => $request->status]
         );
+
+        Mail::to(Auth::user())->send(new RsvpConfirmation($event, $request->status));
 
         return back()->with('success', 'Your RSVP has been recorded.');
     }
