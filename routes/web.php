@@ -20,7 +20,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('dashboard');
 
 // Public event listing (no auth required)
@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware('verified')->group(function () {
+
         // Event Management (Organizers/Admins)
         Route::get('/events/{event}/attendees', [EventController::class, 'attendees'])->name('events.attendees');
         // IMPORTANT: resource must be registered before the public wildcard show route
@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateRole'])->name('admin.users.role');
         Route::patch('/admin/users/{user}/block', [AdminController::class, 'toggleBlock'])->name('admin.users.block');
         Route::patch('/admin/events/{event}/status', [AdminController::class, 'updateEventStatus'])->name('admin.events.status');
-    });
+
 });
 
 // Public event detail — registered AFTER the auth resource group so
