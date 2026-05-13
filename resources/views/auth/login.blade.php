@@ -1,64 +1,54 @@
 <x-guest-layout>
-    <div class="mb-9">
-        <h2 class="text-3xl font-black text-white tracking-tight">Welcome back</h2>
-        <p class="mt-2 text-sm" style="color: rgba(255,255,255,0.4);">Sign in to your LECS account to continue.</p>
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Welcome back</h2>
+        <p class="mt-1.5 text-sm" style="color: rgba(255,255,255,0.4);">Sign in to your LECS account to continue.</p>
     </div>
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}" class="space-y-5">
+    <form method="POST" action="{{ route('login') }}" style="display:flex; flex-direction:column; gap:18px;">
         @csrf
 
         <div>
-            <label for="email">Email address</label>
-            <div class="mt-1.5">
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                    class="input-field" placeholder="you@example.com">
-                @error('email')
-                    <p class="error-text">{{ $message }}</p>
-                @enderror
-            </div>
+            <label class="field-label" for="email">Email address</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}"
+                required autofocus autocomplete="username"
+                class="input-field" placeholder="you@example.com">
+            @error('email') <span class="error-text">{{ $message }}</span> @enderror
         </div>
 
         <div>
-            <div class="flex justify-between items-center">
-                <label for="password">Password</label>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <label class="field-label" for="password" style="margin-bottom:0;">Password</label>
                 @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="text-xs hover:text-white transition-colors" style="color: rgba(255,255,255,0.4);">Forgot password?</a>
+                    <a href="{{ route('password.request') }}" style="color:rgba(255,255,255,0.35); font-size:0.78rem; text-decoration:none;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">Forgot?</a>
                 @endif
             </div>
-            <div class="mt-1.5">
-                <input id="password" type="password" name="password" required autocomplete="current-password"
-                    class="input-field" placeholder="••••••••">
-                @error('password')
-                    <p class="error-text">{{ $message }}</p>
-                @enderror
-            </div>
+            <input id="password" type="password" name="password"
+                required autocomplete="current-password"
+                class="input-field" placeholder="••••••••">
+            @error('password') <span class="error-text">{{ $message }}</span> @enderror
         </div>
 
-        <div class="flex items-center gap-2.5">
+        <div style="display:flex; align-items:center; gap:8px;">
             <input id="remember_me" type="checkbox" name="remember"
-                class="w-4 h-4 rounded" style="accent-color: white;">
-            <label for="remember_me" class="normal-case tracking-normal text-sm" style="color: rgba(255,255,255,0.5);">Remember me for 30 days</label>
+                style="width:15px; height:15px; accent-color:white; cursor:pointer; border-radius:4px;">
+            <label for="remember_me" style="color:rgba(255,255,255,0.4); font-size:0.83rem; cursor:pointer; margin:0;">Remember me</label>
         </div>
 
-        <div class="pt-1">
-            <button type="submit" class="btn-primary">
-                Sign in to account
-            </button>
-        </div>
+        <button type="submit" class="btn-primary" style="margin-top:4px;">
+            Sign in
+        </button>
     </form>
-
-    <div class="mt-6 text-center">
-        <p class="link">Don't have an account?
-            <a href="{{ route('register') }}" class="link-bold">Create one free</a>
-        </p>
-    </div>
 
     <hr class="divider">
 
-    <div class="text-center">
-        <a href="{{ route('admin.login') }}" class="text-xs uppercase tracking-widest font-semibold link">
+    <p class="link" style="text-align:center;">
+        Don't have an account? <a href="{{ route('register') }}">Create one free</a>
+    </p>
+
+    <div style="text-align:center; margin-top:16px;">
+        <a href="{{ route('admin.login') }}" style="color:rgba(255,255,255,0.25); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">
             Admin Portal →
         </a>
     </div>
