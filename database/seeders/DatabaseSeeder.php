@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +18,36 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // --- Seed Categories (safe to re-run) ---
+        $categories = ['Music', 'Sports', 'Food & Drink', 'Arts & Culture', 'Technology', 'Networking', 'Fitness', 'Education'];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach ($categories as $name) {
+            Category::firstOrCreate(
+                ['slug' => Str::slug($name)],
+                ['name' => $name]
+            );
+        }
+
+        // --- Seed a default test user (safe to re-run) ---
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name'     => 'Test User',
+                'password' => Hash::make('password'),
+                'role'     => 'user',
+            ]
+        );
+
+        // --- Seed a default admin user (safe to re-run) ---
+        User::firstOrCreate(
+            ['email' => 'admin@lecs.com'],
+            [
+                'name'     => 'LECS Admin',
+                'password' => Hash::make('admin@123'),
+                'role'     => 'admin',
+            ]
+        );
+
+        $this->command->info('✅ Done! Default admin: admin@lecs.com / admin@123');
     }
 }
