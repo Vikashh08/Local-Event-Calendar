@@ -44,4 +44,10 @@
             </x-primary-button>
         </div>
     </form>
+
+    <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+        <a href="{{ route('admin.login') }}" class="text-xs font-medium text-gray-400 hover:text-gray-900 transition-colors">
+            Admin Portal
+        </a>
+    </div>
 </x-guest-layout>
