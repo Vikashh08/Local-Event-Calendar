@@ -15,10 +15,20 @@ class AdminController extends Controller
             abort(403);
         }
 
-        $pendingEvents = Event::where('status', 'pending')->with('user')->get();
+        $pendingEvents = Event::where('status', 'pending')
+            ->withCount('rsvps')
+            ->with('user')
+            ->get();
+
+        $approvedEvents = Event::where('status', 'approved')
+            ->withCount('rsvps')
+            ->with('user', 'category')
+            ->orderBy('date', 'asc')
+            ->get();
+
         $users = User::all();
 
-        return view('admin.dashboard', compact('pendingEvents', 'users'));
+        return view('admin.dashboard', compact('pendingEvents', 'approvedEvents', 'users'));
     }
 
     public function updateRole(Request $request, User $user)

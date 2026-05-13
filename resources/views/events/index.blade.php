@@ -53,12 +53,20 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($events as $event)
                     <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group">
-                        <div class="h-48 bg-gradient-to-br from-gray-800 to-gray-800 relative overflow-hidden">
-                            <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300"></div>
+                        <div class="h-48 relative overflow-hidden">
+                            @if($event->image)
+                                <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                            @else
+                                <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-600">
+                                    <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300"></div>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            @endif
                             <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-black shadow-sm">
                                 {{ $event->category?->name ?? 'General' }}
                             </div>
-                            <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
+                            <div class="absolute bottom-0 left-0 w-full p-4">
                                 <h3 class="text-xl font-bold text-white leading-tight drop-shadow-md">{{ $event->title }}</h3>
                             </div>
                         </div>
@@ -81,7 +89,7 @@
                                     <svg class="w-4 h-4 mr-1 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     <span class="truncate">{{ $event->location ?? 'TBA' }}</span>
                                 </div>
-                                <a href="{{ route('events.show', $event) }}" class="inline-flex items-center text-sm font-semibold text-gray-900 hover:text-black transition-colors">
+                                <a href="{{ route('events.show', $event) }}" class="inline-flex items-center text-sm font-semibold text-gray-900 hover:text-black transition-colors whitespace-nowrap">
                                     Details <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                 </a>
                             </div>

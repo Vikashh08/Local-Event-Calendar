@@ -8,6 +8,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -64,7 +65,13 @@ class EventController extends Controller
             return redirect()->route('events.index')->with('error', 'Only organizers can create events.');
         }
 
-        $event = Auth::user()->events()->create($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('events', 'public');
+        }
+
+        $event = Auth::user()->events()->create($data);
 
         return redirect()->route('events.show', $event)->with('success', 'Event created successfully.');
     }
@@ -100,7 +107,17 @@ class EventController extends Controller
             return redirect()->route('events.index')->with('error', 'Unauthorized action.');
         }
 
-        $event->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($event->image) {
+                Storage::disk('public')->delete($event->image);
+            }
+            $data['image'] = $request->file('image')->store('events', 'public');
+        }
+
+        $event->update($data);
 
         return redirect()->route('events.show', $event)->with('success', 'Event updated successfully.');
     }

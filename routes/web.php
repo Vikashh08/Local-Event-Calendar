@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\RsvpController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\AdminRegisterController;
 use Illuminate\Support\Facades\Route;
@@ -18,12 +19,12 @@ Route::get('/', function () {
     return view('welcome', compact('upcomingEvents', 'categories'));
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
+// Public event listing (no auth required)
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Event Management (Organizers/Admins)
+    // IMPORTANT: resource must be registered before the public wildcard show route
     Route::resource('events', EventController::class)->except(['index', 'show']);
 
     // RSVPs
@@ -47,6 +49,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateRole'])->name('admin.users.role');
     Route::patch('/admin/events/{event}/status', [AdminController::class, 'updateEventStatus'])->name('admin.events.status');
 });
+
+// Public event detail — registered AFTER the auth resource group so
+// /events/create is caught by the resource route above, not this wildcard.
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminLoginController::class, 'create'])->name('admin.login');

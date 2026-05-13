@@ -53,8 +53,14 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <!-- Event Hero -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-3xl border border-gray-100 mb-8">
-                <div class="h-64 sm:h-80 md:h-96 w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative flex items-end">
-                    <div class="absolute inset-0 bg-black/20"></div>
+                <div class="h-64 sm:h-80 md:h-96 w-full relative flex items-end overflow-hidden">
+                    @if($event->image)
+                        <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
+                    @else
+                        <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600"></div>
+                        <div class="absolute inset-0 bg-black/20"></div>
+                    @endif
                     <div class="relative z-10 p-8 sm:p-12 w-full text-white">
                         <div class="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-sm font-semibold mb-4 border border-white/30">
                             {{ $event->category?->name ?? 'General Category' }}

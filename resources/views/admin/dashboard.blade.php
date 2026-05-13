@@ -31,6 +31,7 @@
                                     <th class="px-6 py-4 font-semibold">Event Title</th>
                                     <th class="px-6 py-4 font-semibold">Organizer</th>
                                     <th class="px-6 py-4 font-semibold">Date</th>
+                                    <th class="px-6 py-4 font-semibold">RSVPs</th>
                                     <th class="px-6 py-4 font-semibold text-right">Actions</th>
                                 </tr>
                             </thead>
@@ -42,6 +43,11 @@
                                         </td>
                                         <td class="px-6 py-4">{{ $event->user->name }}</td>
                                         <td class="px-6 py-4">{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700">
+                                                {{ $event->rsvps_count }} interested
+                                            </span>
+                                        </td>
                                         <td class="px-6 py-4 flex justify-end space-x-2">
                                             <form action="{{ route('admin.events.status', $event) }}" method="POST">
                                                 @csrf
@@ -55,6 +61,60 @@
                                                 <input type="hidden" name="status" value="rejected">
                                                 <button type="submit" class="bg-red-100 text-red-800 hover:bg-red-200 px-4 py-1.5 rounded-lg font-semibold text-xs transition">Reject</button>
                                             </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Event Attendance Stats -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 bg-gray-800 text-white flex justify-between items-center">
+                    <h3 class="text-xl font-bold flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        Event Attendance Stats
+                    </h3>
+                    <span class="bg-gray-700 text-sm font-bold px-3 py-1 rounded-full">{{ $approvedEvents->count() }} Live</span>
+                </div>
+
+                @if($approvedEvents->isEmpty())
+                    <div class="p-12 text-center text-gray-500">
+                        <p class="text-lg">No approved events yet.</p>
+                    </div>
+                @else
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-600">
+                            <thead class="bg-gray-50 border-b border-gray-100 text-gray-700">
+                                <tr>
+                                    <th class="px-6 py-4 font-semibold">Event Title</th>
+                                    <th class="px-6 py-4 font-semibold">Category</th>
+                                    <th class="px-6 py-4 font-semibold">Date</th>
+                                    <th class="px-6 py-4 font-semibold">Organizer</th>
+                                    <th class="px-6 py-4 font-semibold text-right">Total RSVPs</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                @foreach($approvedEvents->sortByDesc('rsvps_count') as $event)
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 font-medium text-gray-900">
+                                            <a href="{{ route('events.show', $event) }}" class="hover:text-gray-600 hover:underline" target="_blank">{{ $event->title }}</a>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                                                {{ $event->category?->name ?? 'General' }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-500">{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</td>
+                                        <td class="px-6 py-4 text-gray-500">{{ $event->user->name }}</td>
+                                        <td class="px-6 py-4 text-right">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold
+                                                {{ $event->rsvps_count >= 10 ? 'bg-emerald-100 text-emerald-800' : ($event->rsvps_count >= 5 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700') }}">
+                                                <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                                {{ $event->rsvps_count }} RSVPs
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach
