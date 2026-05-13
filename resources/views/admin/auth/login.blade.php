@@ -1,17 +1,17 @@
 <x-guest-layout>
     <div style="margin-bottom:28px;">
-        <div style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; background:white; border-radius:12px; margin-bottom:16px; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
-            <svg style="width:20px;height:20px;color:#0a0a0a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; background:linear-gradient(135deg,#1e293b,#334155); border-radius:12px; margin-bottom:14px; box-shadow:0 4px 12px rgba(15,23,42,0.2);">
+            <svg style="width:20px;height:20px;" fill="none" stroke="white" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
         </div>
-        <h2 class="text-2xl font-bold text-white tracking-tight">Admin Portal</h2>
-        <p class="mt-1.5 text-sm" style="color: rgba(255,255,255,0.4);">Restricted access for platform administrators.</p>
+        <h2 style="font-size:1.5rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">Admin Portal</h2>
+        <p style="margin-top:6px; font-size:0.875rem; color:#64748b;">Restricted access for platform administrators.</p>
     </div>
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('admin.login') }}" style="display:flex; flex-direction:column; gap:18px;">
+    <form method="POST" action="{{ route('admin.login') }}" style="display:flex; flex-direction:column; gap:16px;">
         @csrf
 
         <div>
@@ -41,7 +41,7 @@
     <hr class="divider">
 
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <a href="{{ route('admin.register') }}" style="color:white; font-size:0.83rem; font-weight:600; text-decoration:none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Register admin →</a>
-        <a href="{{ route('login') }}" style="color:rgba(255,255,255,0.3); font-size:0.78rem; text-decoration:none;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">← User login</a>
+        <a href="{{ route('admin.register') }}" style="color:#4f46e5; font-size:0.83rem; font-weight:600; text-decoration:none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Register admin →</a>
+        <a href="{{ route('login') }}" style="color:#94a3b8; font-size:0.78rem; text-decoration:none;" onmouseover="this.style.color='#475569'" onmouseout="this.style.color='#94a3b8'">← User login</a>
     </div>
 </x-guest-layout>

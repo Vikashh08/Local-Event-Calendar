@@ -1,10 +1,10 @@
 <x-guest-layout>
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold text-white tracking-tight">Create account</h2>
-        <p class="mt-1.5 text-sm" style="color: rgba(255,255,255,0.4);">Join LECS — it's free to get started.</p>
+    <div style="margin-bottom:28px;">
+        <h2 style="font-size:1.5rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">Create account</h2>
+        <p style="margin-top:6px; font-size:0.875rem; color:#64748b;">Join LECS — discover and create local events.</p>
     </div>
 
-    <form method="POST" action="{{ route('register') }}" style="display:flex; flex-direction:column; gap:16px;">
+    <form method="POST" action="{{ route('register') }}" style="display:flex; flex-direction:column; gap:15px;">
         @csrf
 
         <div>
@@ -43,7 +43,7 @@
             Create free account
         </button>
 
-        <p style="color:rgba(255,255,255,0.2); font-size:0.72rem; text-align:center; line-height:1.5;">
+        <p style="color:#94a3b8; font-size:0.72rem; text-align:center; line-height:1.6; margin:0;">
             By registering, you agree to our Terms of Service and Privacy Policy.
         </p>
     </form>

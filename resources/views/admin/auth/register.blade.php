@@ -1,17 +1,17 @@
 <x-guest-layout>
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold text-white tracking-tight">Register Admin</h2>
-        <p class="mt-1.5 text-sm" style="color: rgba(255,255,255,0.4);">Create a secure administrator account.</p>
+    <div style="margin-bottom:28px;">
+        <h2 style="font-size:1.5rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">Register Admin</h2>
+        <p style="margin-top:6px; font-size:0.875rem; color:#64748b;">Create a secure administrator account.</p>
     </div>
 
-    <form method="POST" action="{{ route('admin.register') }}" style="display:flex; flex-direction:column; gap:16px;">
+    <form method="POST" action="{{ route('admin.register') }}" style="display:flex; flex-direction:column; gap:15px;">
         @csrf
 
         <div>
             <label class="field-label" for="name">Full name</label>
             <input id="name" type="text" name="name" value="{{ old('name') }}"
                 required autofocus autocomplete="name"
-                class="input-field" placeholder="Admin Name">
+                class="input-field" placeholder="Admin name">
             @error('name') <span class="error-text">{{ $message }}</span> @enderror
         </div>
 
