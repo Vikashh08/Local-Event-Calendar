@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <div class="mb-8 text-center">
+    <div class="mb-10 text-center lg:text-left">
         <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Create Account</h2>
-        <p class="text-sm text-gray-500 mt-2">Join LECS to discover and create local events.</p>
+        <p class="text-gray-500 mt-3">Join LECS to discover and create local events.</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-5">
@@ -9,23 +9,23 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Full Name')" />
-            <x-text-input id="name" class="block mt-1 w-full bg-gray-50 focus:bg-white transition-colors" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-label for="name" :value="__('Full Name')" class="mb-1 font-semibold" />
+            <x-text-input id="name" class="block w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email Address')" />
-            <x-text-input id="email" class="block mt-1 w-full bg-gray-50 focus:bg-white transition-colors" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-label for="email" :value="__('Email Address')" class="mb-1 font-semibold" />
+            <x-text-input id="email" class="block w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Password')" class="mb-1 font-semibold" />
 
-            <x-text-input id="password" class="block mt-1 w-full bg-gray-50 focus:bg-white transition-colors"
+            <x-text-input id="password" class="block w-full"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
@@ -35,23 +35,25 @@
 
         <!-- Confirm Password -->
         <div>
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="mb-1 font-semibold" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full bg-gray-50 focus:bg-white transition-colors"
+            <x-text-input id="password_confirmation" class="block w-full"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end pt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <button type="submit" class="ms-4 inline-flex items-center px-6 py-2.5 bg-gray-900 border border-transparent rounded-xl font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 focus:bg-gray-800 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 transition ease-in-out duration-150">
-                {{ __('Register') }}
+        <div class="pt-2">
+            <button type="submit" class="w-full flex justify-center items-center px-6 py-3.5 bg-gray-900 border border-transparent rounded-xl font-bold text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 transition-all shadow-md hover:shadow-lg">
+                {{ __('Create Account') }}
             </button>
         </div>
     </form>
+
+    <div class="mt-10 text-center">
+        <p class="text-gray-500">Already have an account? 
+            <a href="{{ route('login') }}" class="font-bold text-gray-900 hover:underline">Log in</a>
+        </p>
+    </div>
 </x-guest-layout>
