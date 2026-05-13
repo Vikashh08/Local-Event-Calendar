@@ -6,6 +6,7 @@ use App\Http\Controllers\RsvpController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\AdminRegisterController;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\Event;
@@ -50,6 +51,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminLoginController::class, 'create'])->name('admin.login');
     Route::post('/admin/login', [AdminLoginController::class, 'store']);
+    
+    Route::get('/admin/register', [AdminRegisterController::class, 'create'])->name('admin.register');
+    Route::post('/admin/register', [AdminRegisterController::class, 'store']);
 });
 
 require __DIR__.'/auth.php';

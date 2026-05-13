@@ -7,7 +7,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('admin.login') }}" class="space-y-6">
+    <form method="POST" action="{{ route('admin.login') }}" class="space-y-5">
         @csrf
 
         <!-- Email Address -->
@@ -35,7 +35,7 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end">
+        <div class="flex items-center justify-end pt-4">
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
@@ -48,8 +48,11 @@
         </div>
     </form>
     
-    <div class="mt-8 pt-6 border-t border-gray-100 text-center">
-        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+    <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col items-center gap-3">
+        <a href="{{ route('admin.register') }}" class="text-sm font-bold text-gray-900 hover:text-gray-600 transition-colors">
+            Need an admin account? Register here
+        </a>
+        <a href="{{ route('login') }}" class="text-xs font-medium text-gray-400 hover:text-gray-900 transition-colors">
             &larr; Return to Standard Login
         </a>
     </div>
