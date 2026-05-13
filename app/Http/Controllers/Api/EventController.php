@@ -29,12 +29,55 @@ class EventController extends Controller
         return response()->json($events);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Event $event)
     {
         $event->load('category', 'user:id,name');
         return response()->json($event);
+    }
+
+    public function store(\App\Http\Requests\StoreEventRequest $request)
+    {
+        if (!$request->user()->can('create', Event::class)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('events', 'public');
+        }
+
+        $event = $request->user()->events()->create($data);
+
+        return response()->json($event, 201);
+    }
+
+    public function update(\App\Http\Requests\UpdateEventRequest $request, Event $event)
+    {
+        if (!$request->user()->can('update', $event)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            if ($event->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($event->image);
+            }
+            $data['image'] = $request->file('image')->store('events', 'public');
+        }
+
+        $event->update($data);
+
+        return response()->json($event);
+    }
+
+    public function destroy(Request $request, Event $event)
+    {
+        if (!$request->user()->can('delete', $event)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $event->delete();
+
+        return response()->json(['message' => 'Event deleted successfully']);
     }
 }
