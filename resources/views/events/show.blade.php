@@ -33,6 +33,11 @@
                     @endif
 
                     @if(Auth::user()->role === 'admin' || Auth::id() === $event->user_id)
+                        @if(Auth::id() === $event->user_id)
+                            <a href="{{ route('events.attendees', $event) }}" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-black transition shadow-sm">
+                                Manage Attendees
+                            </a>
+                        @endif
                         <a href="{{ route('events.edit', $event) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition shadow-sm">
                             Edit
                         </a>

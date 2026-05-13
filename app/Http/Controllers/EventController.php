@@ -135,4 +135,20 @@ class EventController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
     }
+
+    /**
+     * Display a list of attendees for the event.
+     */
+    public function attendees(Event $event)
+    {
+        if (!Auth::user()->can('update', $event)) {
+            return redirect()->route('events.index')->with('error', 'Unauthorized action.');
+        }
+
+        $event->load(['rsvps.user' => function($query) {
+            $query->orderBy('name');
+        }]);
+
+        return view('events.attendees', compact('event'));
+    }
 }

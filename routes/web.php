@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('verified')->group(function () {
         // Event Management (Organizers/Admins)
+        Route::get('/events/{event}/attendees', [EventController::class, 'attendees'])->name('events.attendees');
         // IMPORTANT: resource must be registered before the public wildcard show route
         Route::resource('events', EventController::class)->except(['index', 'show']);
 
