@@ -31,23 +31,25 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Event Management (Organizers/Admins)
-    // IMPORTANT: resource must be registered before the public wildcard show route
-    Route::resource('events', EventController::class)->except(['index', 'show']);
+    Route::middleware('verified')->group(function () {
+        // Event Management (Organizers/Admins)
+        // IMPORTANT: resource must be registered before the public wildcard show route
+        Route::resource('events', EventController::class)->except(['index', 'show']);
 
-    // RSVPs
-    Route::post('/events/{event}/rsvp', [RsvpController::class, 'store'])->name('rsvps.store');
-    Route::delete('/events/{event}/rsvp', [RsvpController::class, 'destroy'])->name('rsvps.destroy');
+        // RSVPs
+        Route::post('/events/{event}/rsvp', [RsvpController::class, 'store'])->name('rsvps.store');
+        Route::delete('/events/{event}/rsvp', [RsvpController::class, 'destroy'])->name('rsvps.destroy');
 
-    // Bookmarks
-    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
-    Route::post('/events/{event}/bookmark', [BookmarkController::class, 'store'])->name('bookmarks.store');
-    Route::delete('/events/{event}/bookmark', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
+        // Bookmarks
+        Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
+        Route::post('/events/{event}/bookmark', [BookmarkController::class, 'store'])->name('bookmarks.store');
+        Route::delete('/events/{event}/bookmark', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
 
-    // Admin
-    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateRole'])->name('admin.users.role');
-    Route::patch('/admin/events/{event}/status', [AdminController::class, 'updateEventStatus'])->name('admin.events.status');
+        // Admin
+        Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateRole'])->name('admin.users.role');
+        Route::patch('/admin/events/{event}/status', [AdminController::class, 'updateEventStatus'])->name('admin.events.status');
+    });
 });
 
 // Public event detail — registered AFTER the auth resource group so
