@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         // Admin
         Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateRole'])->name('admin.users.role');
+        Route::patch('/admin/users/{user}/block', [AdminController::class, 'toggleBlock'])->name('admin.users.block');
         Route::patch('/admin/events/{event}/status', [AdminController::class, 'updateEventStatus'])->name('admin.events.status');
     });
 });

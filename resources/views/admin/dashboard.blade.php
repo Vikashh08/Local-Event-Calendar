@@ -140,12 +140,13 @@
                                 <th class="px-6 py-4 font-semibold">Name</th>
                                 <th class="px-6 py-4 font-semibold">Email</th>
                                 <th class="px-6 py-4 font-semibold">Current Role</th>
-                                <th class="px-6 py-4 font-semibold text-right">Update Role</th>
+                                <th class="px-6 py-4 font-semibold">Status</th>
+                                <th class="px-6 py-4 font-semibold text-right">Update Role & Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @foreach($users as $user)
-                                <tr class="hover:bg-gray-50 transition">
+                                <tr class="hover:bg-gray-50 transition {{ $user->is_blocked ? 'bg-red-50' : '' }}">
                                     <td class="px-6 py-4 font-medium text-gray-900">{{ $user->name }}</td>
                                     <td class="px-6 py-4">{{ $user->email }}</td>
                                     <td class="px-6 py-4">
@@ -153,7 +154,14 @@
                                             {{ ucfirst($user->role) }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 flex justify-end">
+                                    <td class="px-6 py-4">
+                                        @if($user->is_blocked)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800">Blocked</span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">Active</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 flex justify-end space-x-4">
                                         <form action="{{ route('admin.users.role', $user) }}" method="POST" class="flex items-center space-x-2">
                                             @csrf
                                             @method('PATCH')
@@ -164,6 +172,18 @@
                                             </select>
                                             <button type="submit" class="bg-gray-900 text-white hover:bg-gray-800 px-4 py-1.5 rounded-lg font-semibold text-xs transition">Update</button>
                                         </form>
+                                        
+                                        @if(Auth::id() !== $user->id)
+                                            <form action="{{ route('admin.users.block', $user) }}" method="POST" class="flex items-center">
+                                                @csrf
+                                                @method('PATCH')
+                                                @if($user->is_blocked)
+                                                    <button type="submit" class="bg-green-100 text-green-800 hover:bg-green-200 px-4 py-1.5 rounded-lg font-semibold text-xs transition">Unblock</button>
+                                                @else
+                                                    <button type="submit" class="bg-red-100 text-red-800 hover:bg-red-200 px-4 py-1.5 rounded-lg font-semibold text-xs transition">Block</button>
+                                                @endif
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

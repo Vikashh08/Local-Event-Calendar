@@ -60,4 +60,20 @@ class AdminController extends Controller
 
         return back()->with('success', 'Event status updated.');
     }
+
+    public function toggleBlock(User $user)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
+        if (Auth::id() === $user->id) {
+            return back()->with('error', 'You cannot block yourself.');
+        }
+
+        $user->update(['is_blocked' => !$user->is_blocked]);
+
+        $status = $user->is_blocked ? 'blocked' : 'unblocked';
+        return back()->with('success', "User has been {$status}.");
+    }
 }
