@@ -1,65 +1,65 @@
 <x-guest-layout>
-    <div class="mb-10 text-center lg:text-left">
-        <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Welcome Back</h2>
-        <p class="text-gray-500 mt-3">Log in to your account to manage your events and RSVPs.</p>
+    <div class="mb-9">
+        <h2 class="text-3xl font-black text-white tracking-tight">Welcome back</h2>
+        <p class="mt-2 text-sm" style="color: rgba(255,255,255,0.4);">Sign in to your LECS account to continue.</p>
     </div>
 
-    <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf
 
-        <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email Address')" class="mb-1 font-semibold" />
-            <x-text-input id="email" class="block w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email">Email address</label>
+            <div class="mt-1.5">
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                    class="input-field" placeholder="you@example.com">
+                @error('email')
+                    <p class="error-text">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
 
-        <!-- Password -->
         <div>
-            <div class="flex justify-between items-center mb-1">
-                <x-input-label for="password" :value="__('Password')" class="font-semibold" />
+            <div class="flex justify-between items-center">
+                <label for="password">Password</label>
                 @if (Route::has('password.request'))
-                    <a class="text-sm text-gray-500 hover:text-gray-900 font-medium transition-colors" href="{{ route('password.request') }}">
-                        {{ __('Forgot password?') }}
-                    </a>
+                    <a href="{{ route('password.request') }}" class="text-xs hover:text-white transition-colors" style="color: rgba(255,255,255,0.4);">Forgot password?</a>
                 @endif
             </div>
-
-            <x-text-input id="password" class="block w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <div class="mt-1.5">
+                <input id="password" type="password" name="password" required autocomplete="current-password"
+                    class="input-field" placeholder="••••••••">
+                @error('password')
+                    <p class="error-text">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
 
-        <!-- Remember Me -->
-        <div class="block">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-gray-900 shadow-sm focus:ring-gray-900" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
+        <div class="flex items-center gap-2.5">
+            <input id="remember_me" type="checkbox" name="remember"
+                class="w-4 h-4 rounded" style="accent-color: white;">
+            <label for="remember_me" class="normal-case tracking-normal text-sm" style="color: rgba(255,255,255,0.5);">Remember me for 30 days</label>
         </div>
 
-        <div class="pt-2">
-            <button type="submit" class="w-full flex justify-center items-center px-6 py-3.5 bg-gray-900 border border-transparent rounded-xl font-bold text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 transition-all shadow-md hover:shadow-lg">
-                {{ __('Log in') }}
+        <div class="pt-1">
+            <button type="submit" class="btn-primary">
+                Sign in to account
             </button>
         </div>
     </form>
 
-    <div class="mt-10 text-center">
-        <p class="text-gray-500">Don't have an account? 
-            <a href="{{ route('register') }}" class="font-bold text-gray-900 hover:underline">Sign up</a>
+    <div class="mt-6 text-center">
+        <p class="link">Don't have an account?
+            <a href="{{ route('register') }}" class="link-bold">Create one free</a>
         </p>
     </div>
 
-    <div class="mt-12 pt-6 border-t border-gray-100 text-center lg:text-left">
-        <a href="{{ route('admin.login') }}" class="text-xs font-semibold text-gray-400 hover:text-gray-900 transition-colors uppercase tracking-wider">
-            Admin Portal
+    <hr class="divider">
+
+    <div class="text-center">
+        <a href="{{ route('admin.login') }}" class="text-xs uppercase tracking-widest font-semibold link">
+            Admin Portal →
         </a>
     </div>
 </x-guest-layout>
