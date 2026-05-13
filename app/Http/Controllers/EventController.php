@@ -16,7 +16,12 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Event::with('category', 'user');
+        $query = Event::with('category', 'user')->where(function($q) {
+            $q->where('status', 'approved');
+            if (Auth::check()) {
+                $q->orWhere('user_id', Auth::id());
+            }
+        });
 
         if ($request->has('search')) {
             $query->where('title', 'like', '%' . $request->search . '%')

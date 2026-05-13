@@ -14,7 +14,13 @@ class Event extends Model
         'date',
         'time',
         'location',
+        'status',
     ];
+
+    public function scopeApproved($query)
+    {
+        return $query->where('status', 'approved');
+    }
 
     public function user()
     {

@@ -4,13 +4,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\RsvpController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\Event;
 use App\Models\Category;
 
 Route::get('/', function () {
-    $upcomingEvents = Event::with('category')->whereDate('date', '>=', now())->orderBy('date', 'asc')->take(6)->get();
+    $upcomingEvents = Event::approved()->with('category')->whereDate('date', '>=', now())->orderBy('date', 'asc')->take(6)->get();
     $categories = Category::all();
     return view('welcome', compact('upcomingEvents', 'categories'));
 })->name('home');
@@ -38,6 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
     Route::post('/events/{event}/bookmark', [BookmarkController::class, 'store'])->name('bookmarks.store');
     Route::delete('/events/{event}/bookmark', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
+
+    // Admin
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateRole'])->name('admin.users.role');
+    Route::patch('/admin/events/{event}/status', [AdminController::class, 'updateEventStatus'])->name('admin.events.status');
 });
 
 require __DIR__.'/auth.php';
