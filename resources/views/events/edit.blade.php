@@ -58,9 +58,15 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label for="location" class="block text-sm font-bold text-gray-700">Location</label>
-                            <input type="text" name="location" id="location" value="{{ old('location', $event->location) }}" placeholder="Venue name or address" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="location" class="block text-sm font-bold text-gray-700">Location</label>
+                                <input type="text" name="location" id="location" value="{{ old('location', $event->location) }}" placeholder="Venue name or address" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
+                            </div>
+                            <div>
+                                <label for="capacity" class="block text-sm font-bold text-gray-700">Capacity <span class="text-gray-400 font-normal">(optional)</span></label>
+                                <input type="number" name="capacity" id="capacity" min="1" value="{{ old('capacity', $event->capacity) }}" placeholder="Max attendees" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
+                            </div>
                         </div>
 
                         <div>

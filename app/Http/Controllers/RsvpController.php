@@ -15,6 +15,18 @@ class RsvpController extends Controller
             'status' => 'required|in:yes,no,maybe',
         ]);
 
+        $existingRsvp = $event->rsvps()->where('user_id', Auth::id())->first();
+
+        // Enforce capacity limit if RSVPing 'yes' and wasn't already 'yes'
+        if ($request->status === 'yes' && (! $existingRsvp || $existingRsvp->status !== 'yes')) {
+            if ($event->capacity) {
+                $yesCount = $event->rsvps()->where('status', 'yes')->count();
+                if ($yesCount >= $event->capacity) {
+                    return back()->with('error', 'Sorry, this event has reached its maximum capacity.');
+                }
+            }
+        }
+
         $rsvp = $event->rsvps()->updateOrCreate(
             ['user_id' => Auth::id()],
             ['status' => $request->status]
