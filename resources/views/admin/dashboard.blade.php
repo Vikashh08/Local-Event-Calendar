@@ -25,26 +25,27 @@
                     </div>
                 @else
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-gray-600">
-                            <thead class="bg-gray-50 border-b border-gray-100 text-gray-700">
-                                <tr>
-                                    <th class="px-6 py-4 font-semibold">Event Title</th>
-                                    <th class="px-6 py-4 font-semibold">Organizer</th>
-                                    <th class="px-6 py-4 font-semibold">Date</th>
-                                    <th class="px-6 py-4 font-semibold">RSVPs</th>
-                                    <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="border-b border-gray-100">
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Event Title</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Organizer</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Date</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">RSVPs</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
+                            <tbody class="divide-y divide-gray-50">
                                 @foreach($pendingEvents as $event)
-                                    <tr class="hover:bg-gray-50 transition">
+                                    <tr class="hover:bg-gray-50/80 transition-colors duration-150">
                                         <td class="px-6 py-4 font-medium text-gray-900">
                                             <a href="{{ route('events.show', $event) }}" class="hover:text-gray-600 underline" target="_blank">{{ $event->title }}</a>
                                         </td>
                                         <td class="px-6 py-4">{{ $event->user->name }}</td>
                                         <td class="px-6 py-4">{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</td>
                                         <td class="px-6 py-4">
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700">
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
                                                 {{ $event->rsvps_count }} interested
                                             </span>
                                         </td>
@@ -87,18 +88,18 @@
                 @else
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-gray-600">
-                            <thead class="bg-gray-50 border-b border-gray-100 text-gray-700">
-                                <tr>
-                                    <th class="px-6 py-4 font-semibold">Event Title</th>
-                                    <th class="px-6 py-4 font-semibold">Category</th>
-                                    <th class="px-6 py-4 font-semibold">Date</th>
-                                    <th class="px-6 py-4 font-semibold">Organizer</th>
-                                    <th class="px-6 py-4 font-semibold text-right">Total RSVPs</th>
+                            <thead>
+                                <tr class="border-b border-gray-100">
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Event Title</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Category</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Date</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Organizer</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Total RSVPs</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
+                            <tbody class="divide-y divide-gray-50">
                                 @foreach($approvedEvents->sortByDesc('rsvps_count') as $event)
-                                    <tr class="hover:bg-gray-50 transition">
+                                    <tr class="hover:bg-gray-50/80 transition-colors duration-150">
                                         <td class="px-6 py-4 font-medium text-gray-900">
                                             <a href="{{ route('events.show', $event) }}" class="hover:text-gray-600 hover:underline" target="_blank">{{ $event->title }}</a>
                                         </td>
@@ -135,18 +136,18 @@
                 
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-gray-600">
-                        <thead class="bg-gray-50 border-b border-gray-100 text-gray-700">
-                            <tr>
-                                <th class="px-6 py-4 font-semibold">Name</th>
-                                <th class="px-6 py-4 font-semibold">Email</th>
-                                <th class="px-6 py-4 font-semibold">Current Role</th>
-                                <th class="px-6 py-4 font-semibold">Status</th>
-                                <th class="px-6 py-4 font-semibold text-right">Update Role & Actions</th>
+                        <thead>
+                            <tr class="border-b border-gray-100">
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Name</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Email</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Current Role</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Status</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Update Role & Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody class="divide-y divide-gray-50">
                             @foreach($users as $user)
-                                <tr class="hover:bg-gray-50 transition {{ $user->is_blocked ? 'bg-red-50' : '' }}">
+                                <tr class="hover:bg-gray-50/80 transition-colors duration-150 {{ $user->is_blocked ? 'opacity-60' : '' }}">
                                     <td class="px-6 py-4 font-medium text-gray-900">{{ $user->name }}</td>
                                     <td class="px-6 py-4">{{ $user->email }}</td>
                                     <td class="px-6 py-4">
@@ -156,9 +157,13 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @if($user->is_blocked)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800">Blocked</span>
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-red-700 ring-1 ring-red-200">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Blocked
+                                            </span>
                                         @else
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">Active</span>
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Active
+                                            </span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 flex justify-end space-x-4">
