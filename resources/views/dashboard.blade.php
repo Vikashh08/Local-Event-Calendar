@@ -13,31 +13,31 @@
 
             {{-- Stats Bar --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center shrink-0">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md p-6 flex items-center space-x-4 transition-all duration-200 group">
+                    <div class="w-14 h-14 bg-gray-900 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500 font-medium">Upcoming RSVPs</p>
-                        <p class="text-3xl font-extrabold text-gray-900">{{ $rsvps->count() }}</p>
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Upcoming RSVPs</p>
+                        <p class="text-3xl font-black text-gray-900 mt-0.5">{{ $rsvps->count() }}</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center shrink-0">
-                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path></svg>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md p-6 flex items-center space-x-4 transition-all duration-200 group">
+                    <div class="w-14 h-14 bg-gray-800 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path></svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500 font-medium">Saved Events</p>
-                        <p class="text-3xl font-extrabold text-gray-900">{{ $bookmarks->count() }}</p>
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Saved Events</p>
+                        <p class="text-3xl font-black text-gray-900 mt-0.5">{{ $bookmarks->count() }}</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gray-700 rounded-xl flex items-center justify-center shrink-0">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md p-6 flex items-center space-x-4 transition-all duration-200 group">
+                    <div class="w-14 h-14 bg-gray-700 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500 font-medium">Account Role</p>
-                        <p class="text-xl font-extrabold text-gray-900 capitalize">{{ Auth::user()->role }}</p>
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Account Role</p>
+                        <p class="text-xl font-black text-gray-900 capitalize mt-0.5">{{ Auth::user()->role }}</p>
                     </div>
                 </div>
             </div>
