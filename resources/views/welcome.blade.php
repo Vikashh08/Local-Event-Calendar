@@ -53,7 +53,7 @@
                 Find concerts, workshops, meetups and more happening right in your neighborhood. Never miss out on what's next.
             </p>
             
-            <form action="{{ route('events.index') }}" method="GET" class="max-w-2xl mx-auto bg-white p-2 rounded-full shadow-2xl flex relative transform hover:scale-[1.01] transition-transform duration-300">
+            <form action="{{ route('events.index') }}" method="GET" class="max-w-2xl mx-auto bg-white p-2 rounded-full shadow-2xl flex relative transform hover:scale-[1.01] focus-within:ring-4 focus-within:ring-gray-500/30 transition-all duration-300">
                 <input type="text" name="search" placeholder="Search for events, venues, or cities..." class="flex-grow bg-transparent border-none rounded-l-full px-6 py-4 text-gray-900 placeholder-gray-500 focus:ring-0 text-lg outline-none w-full">
                 <button type="submit" class="bg-gradient-to-r from-gray-900 to-gray-800 hover:from-black hover:to-gray-900 text-white font-bold rounded-full px-8 py-4 transition-colors shadow-md flex-shrink-0 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -89,7 +89,13 @@
             @forelse($upcomingEvents as $event)
                 <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
                     <a href="{{ route('events.show', $event) }}" class="block relative">
-                        <div class="h-56 bg-gradient-to-br from-gray-700 to-gray-900 relative overflow-hidden">
+                        <div class="h-56 relative overflow-hidden">
+                            @if($event->image)
+                                <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            @else
+                                <div class="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 group-hover:scale-105 transition-transform duration-500"></div>
+                            @endif
                             <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                             <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-2 rounded-xl text-center shadow-md">
                                 <span class="block text-xs font-bold text-gray-500 uppercase tracking-wider">{{ \Carbon\Carbon::parse($event->date)->format('M') }}</span>
