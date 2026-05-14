@@ -30,6 +30,7 @@ class UpdateEventRequest extends FormRequest
             'time' => 'required|date_format:H:i',
             'location' => 'nullable|string|max:255',
             'capacity' => 'nullable|integer|min:1',
+            'price' => 'nullable|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ];
     }

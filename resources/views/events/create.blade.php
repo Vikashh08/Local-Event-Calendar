@@ -61,14 +61,19 @@
                             </div>
                         </div>
 
+                        <div>
+                            <label for="location" class="block text-sm font-bold text-gray-700">Location</label>
+                            <input type="text" name="location" id="location" value="{{ old('location') }}" placeholder="Venue name or address" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="location" class="block text-sm font-bold text-gray-700">Location</label>
-                                <input type="text" name="location" id="location" value="{{ old('location') }}" placeholder="Venue name or address" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
-                            </div>
                             <div>
                                 <label for="capacity" class="block text-sm font-bold text-gray-700">Capacity <span class="text-gray-400 font-normal">(optional)</span></label>
                                 <input type="number" name="capacity" id="capacity" min="1" value="{{ old('capacity') }}" placeholder="Max attendees" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
+                            </div>
+                            <div>
+                                <label for="price" class="block text-sm font-bold text-gray-700">Ticket Price ($) <span class="text-gray-400 font-normal">(0 for free event)</span></label>
+                                <input type="number" step="0.01" min="0" name="price" id="price" value="{{ old('price', 0) }}" placeholder="0.00" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                             </div>
                         </div>
 

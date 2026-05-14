@@ -13,6 +13,7 @@ class RsvpController extends Controller
     {
         $request->validate([
             'status' => 'required|in:yes,no,maybe',
+            'payment_method' => 'nullable|string',
         ]);
 
         $existingRsvp = $event->rsvps()->where('user_id', Auth::id())->first();
@@ -27,9 +28,21 @@ class RsvpController extends Controller
             }
         }
 
+        $updateData = ['status' => $request->status];
+
+        if ($request->status === 'yes' && $event->price > 0) {
+            $updateData['payment_status'] = 'paid';
+            $updateData['payment_method'] = $request->payment_method ?? 'credit_card';
+            $updateData['payment_id'] = 'PAY-' . strtoupper(uniqid());
+        } elseif ($request->status !== 'yes') {
+            $updateData['payment_status'] = 'free';
+            $updateData['payment_method'] = null;
+            $updateData['payment_id'] = null;
+        }
+
         $rsvp = $event->rsvps()->updateOrCreate(
             ['user_id' => Auth::id()],
-            ['status' => $request->status]
+            $updateData
         );
 
         if ($request->status === 'yes' && $rsvp->wasRecentlyCreated) {
