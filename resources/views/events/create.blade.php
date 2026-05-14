@@ -9,7 +9,11 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-3xl border border-gray-100">
                 <div class="p-8 sm:p-12">
-                    
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-black text-gray-900 tracking-tight">New Event</h3>
+                        <p class="text-sm text-gray-500 mt-1">Fill in the details below to publish your event.</p>
+                    </div>
+
                     @if ($errors->any())
                         <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
                             <div class="flex items-start">
@@ -77,10 +81,10 @@
                         <div>
                             <label for="image" class="block text-sm font-bold text-gray-700">Cover Image <span class="text-gray-400 font-normal">(optional, max 2MB)</span></label>
                             <div class="mt-2 flex items-center justify-center w-full">
-                                <label for="image" id="image-drop-zone" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors group">
+                                <label for="image" id="image-drop-zone" class="flex flex-col items-center justify-center w-full h-44 border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer bg-gray-50 hover:bg-white hover:border-gray-400 focus-within:border-gray-800 focus-within:ring-2 focus-within:ring-gray-800/10 transition-all duration-200 group">
                                     <div class="flex flex-col items-center justify-center pt-5 pb-6" id="image-placeholder">
-                                        <svg class="w-10 h-10 mb-3 text-gray-400 group-hover:text-gray-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                        <p class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Click to upload</span> or drag and drop</p>
+                                        <svg class="w-10 h-10 mb-3 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <p class="text-sm text-gray-500"><span class="font-semibold text-gray-800">Click to upload</span> or drag & drop</p>
                                         <p class="text-xs text-gray-400 mt-1">PNG, JPG, GIF, WEBP up to 2MB</p>
                                     </div>
                                     <img id="image-preview" src="#" alt="Preview" class="hidden max-h-36 rounded-xl object-cover">
