@@ -127,9 +127,17 @@
                                         <div class="flex-shrink-0 w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-gray-100 text-gray-700">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                         </div>
-                                        <div class="ml-4">
+                                        <div class="ml-4 flex-1">
+                                            @php
+                                                $filled = $event->rsvps->where('status','yes')->count();
+                                                $cap = $event->capacity;
+                                                $pct = $cap > 0 ? min(100, round($filled / $cap * 100)) : 0;
+                                            @endphp
                                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Capacity</p>
-                                            <p class="text-gray-900 font-semibold mt-0.5">{{ $event->capacity }} Attendees Max</p>
+                                            <p class="text-gray-900 font-semibold mt-0.5">{{ $filled }} / {{ $cap }} spots filled</p>
+                                            <div class="mt-2 w-full bg-gray-100 rounded-full h-1.5">
+                                                <div class="h-1.5 rounded-full {{ $pct >= 100 ? 'bg-red-500' : ($pct >= 75 ? 'bg-yellow-500' : 'bg-gray-900') }}" style="width: {{ $pct }}%"></div>
+                                            </div>
                                         </div>
                                     </li>
                                     @endif
@@ -149,9 +157,15 @@
                                         @endphp
                                         
                                         @if($event->capacity && !$isFull && $userRsvp?->status !== 'yes')
-                                            <p class="text-sm text-emerald-600 font-medium mb-3">Only {{ $event->capacity - $yesCount }} spots left!</p>
+                                            <div class="flex items-center gap-1.5 mb-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                                                <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                <p class="text-sm text-emerald-700 font-semibold">Only {{ $event->capacity - $yesCount }} spot{{ $event->capacity - $yesCount === 1 ? '' : 's' }} left!</p>
+                                            </div>
                                         @elseif($isFull && $userRsvp?->status !== 'yes')
-                                            <p class="text-sm text-red-600 font-bold mb-3">Event is Full!</p>
+                                            <div class="flex items-center gap-1.5 mb-3 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                                                <svg class="w-4 h-4 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                <p class="text-sm text-red-700 font-bold">This event is fully booked!</p>
+                                            </div>
                                         @endif
 
                                         <form action="{{ route('rsvps.store', $event) }}" method="POST" class="space-y-3 mt-4">
