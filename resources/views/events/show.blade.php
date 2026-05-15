@@ -219,28 +219,65 @@
                                                 <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Price</span>
                                                 <span class="text-xl font-black text-gray-900">₹{{ number_format($event->price, 2) }}</span>
                                             </div>
-                                            <a href="{{ route('events.checkout', $event) }}" 
-                                               class="block w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-center hover:bg-black transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 {{ $isFull ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
-                                                {{ $isFull ? 'Event Full' : 'Book Ticket Now' }}
-                                            </a>
+                                            <div x-data="{ ripple: false }">
+                                                <a href="{{ route('events.checkout', $event) }}"
+                                                   @click.prevent="ripple = true; setTimeout(() => window.location.href='{{ route('events.checkout', $event) }}', 400)"
+                                                   class="relative overflow-hidden block w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-center hover:bg-black transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 {{ $isFull ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
+                                                    <span x-show="!ripple" class="flex items-center justify-center gap-2">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+                                                        {{ $isFull ? 'Event Full' : 'Book Ticket Now' }}
+                                                    </span>
+                                                    <span x-show="ripple" class="flex items-center justify-center gap-2">
+                                                        <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                                                        Opening Checkout...
+                                                    </span>
+                                                    <span x-show="ripple" class="absolute inset-0 bg-white/10 animate-ping rounded-2xl"></span>
+                                                </a>
+                                            </div>
                                             <p class="text-[10px] text-center text-gray-400 font-medium uppercase tracking-widest">Secure checkout via LECS Pay</p>
                                         </div>
                                     @else
-                                        <form action="{{ route('rsvps.store', $event) }}" method="POST" class="space-y-2.5">
+                                        <form action="{{ route('rsvps.store', $event) }}" method="POST" class="space-y-2.5" x-data="{ submitting: false, which: '' }" @submit="submitting = true">
                                             @csrf
+
+                                            {{-- Processing overlay for free RSVP --}}
+                                            <template x-if="submitting">
+                                                <div class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/75 backdrop-blur-md">
+                                                    <div class="bg-white rounded-3xl p-10 flex flex-col items-center gap-5 shadow-2xl max-w-xs w-full mx-4 animate-bounce-in">
+                                                        <div class="relative w-20 h-20">
+                                                            <div class="absolute inset-0 border-4 border-gray-100 rounded-full"></div>
+                                                            <div class="absolute inset-0 border-4 border-gray-900 border-t-transparent rounded-full animate-spin"></div>
+                                                            <div class="absolute inset-0 flex items-center justify-center">
+                                                                <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <p class="text-gray-900 font-black text-lg tracking-tight">Saving your RSVP</p>
+                                                            <p class="text-gray-400 text-sm mt-1">Just a moment...</p>
+                                                        </div>
+                                                        <div class="flex gap-1.5">
+                                                            <div class="w-2 h-2 bg-gray-900 rounded-full animate-bounce" style="animation-delay:0ms"></div>
+                                                            <div class="w-2 h-2 bg-gray-900 rounded-full animate-bounce" style="animation-delay:150ms"></div>
+                                                            <div class="w-2 h-2 bg-gray-900 rounded-full animate-bounce" style="animation-delay:300ms"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+
                                             <button type="submit" name="status" value="yes" {{ $isFull && $userRsvp?->status !== 'yes' ? 'disabled' : '' }}
+                                                    @click="which = 'yes'"
                                                     class="w-full relative flex items-center justify-center px-4 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all {{ $userRsvp?->status === 'yes' ? 'bg-gray-900 text-white shadow-lg' : ($isFull ? 'bg-gray-50 text-gray-400 border border-gray-200 cursor-not-allowed' : 'bg-white text-gray-900 border-2 border-gray-100 hover:border-gray-900 transition-colors') }}">
                                                 @if($userRsvp?->status === 'yes') <span class="absolute left-4 w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> @endif
                                                 {{ $userRsvp?->status === 'yes' ? 'Attending' : 'Yes, I\'m going' }}
                                             </button>
-                                            
+
                                             <div class="grid grid-cols-2 gap-2.5">
-                                                <button type="submit" name="status" value="maybe"
+                                                <button type="submit" name="status" value="maybe" @click="which = 'maybe'"
                                                         class="relative flex items-center justify-center px-3 py-2.5 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all {{ $userRsvp?->status === 'maybe' ? 'bg-yellow-500 text-white shadow-md' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50' }}">
                                                     @if($userRsvp?->status === 'maybe') <span class="absolute left-2.5 w-1.5 h-1.5 bg-white rounded-full"></span> @endif
                                                     Maybe
                                                 </button>
-                                                <button type="submit" name="status" value="no"
+                                                <button type="submit" name="status" value="no" @click="which = 'no'"
                                                         class="relative flex items-center justify-center px-3 py-2.5 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all {{ $userRsvp?->status === 'no' ? 'bg-red-500 text-white shadow-md' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50' }}">
                                                     @if($userRsvp?->status === 'no') <span class="absolute left-2.5 w-1.5 h-1.5 bg-white rounded-full"></span> @endif
                                                     Can't go
