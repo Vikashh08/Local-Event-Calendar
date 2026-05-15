@@ -69,7 +69,7 @@
                                 <input type="number" name="capacity" id="capacity" min="1" value="{{ old('capacity', $event->capacity) }}" placeholder="Max attendees" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                             </div>
                             <div>
-                                <label for="price" class="block text-sm font-bold text-gray-700">Ticket Price ($) <span class="text-gray-400 font-normal">(0 for free event)</span></label>
+                                <label for="price" class="block text-sm font-bold text-gray-700">Ticket Price (₹) <span class="text-gray-400 font-normal">(0 for free event)</span></label>
                                 <input type="number" step="0.01" min="0" name="price" id="price" value="{{ old('price', $event->price) }}" placeholder="0.00" class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800 transition-shadow">
                             </div>
                         </div>

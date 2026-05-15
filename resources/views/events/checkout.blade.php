@@ -70,7 +70,7 @@
 
                                 <div class="mt-8 pt-8 border-t border-gray-100">
                                     <button type="submit" class="w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
-                                        Confirm & Pay ${{ number_format($event->price, 2) }}
+                                        Confirm & Pay ₹{{ number_format($event->price, 2) }}
                                     </button>
                                     <p class="text-center text-[10px] text-gray-400 mt-4 uppercase tracking-widest font-bold">
                                         Secure transaction powered by LECS Pay
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="flex items-center gap-3 text-sm">
                                     <div class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-gray-400 shrink-0">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     </div>
                                     <span class="text-gray-600 font-medium truncate">{{ $event->location ?? 'TBA' }}</span>
                                 </div>
@@ -128,15 +128,15 @@
                             <div class="mt-8 pt-6 border-t border-gray-100 space-y-4">
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Ticket Price</span>
-                                    <span class="text-gray-900 font-bold">${{ number_format($event->price, 2) }}</span>
+                                    <span class="text-gray-900 font-bold">₹{{ number_format($event->price, 2) }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Service Fee</span>
-                                    <span class="text-gray-900 font-bold">$0.00</span>
+                                    <span class="text-gray-900 font-bold">₹0.00</span>
                                 </div>
                                 <div class="flex justify-between items-center pt-4 border-t border-gray-900">
                                     <span class="text-gray-900 font-black uppercase tracking-widest text-xs">Total Amount</span>
-                                    <span class="text-2xl font-black text-gray-900">${{ number_format($event->price, 2) }}</span>
+                                    <span class="text-2xl font-black text-gray-900">₹{{ number_format($event->price, 2) }}</span>
                                 </div>
                             </div>
                         </div>

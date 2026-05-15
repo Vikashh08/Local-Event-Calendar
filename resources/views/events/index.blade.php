@@ -107,7 +107,7 @@
                         <div class="px-5 pb-5 pt-3 mt-auto border-t border-gray-50 flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider {{ $event->price > 0 ? 'bg-gray-900 text-white' : 'bg-emerald-50 text-emerald-700 border border-emerald-100/60' }}">
-                                    {{ $event->price > 0 ? '$' . number_format($event->price, 2) : 'Free' }}
+                                    {{ $event->price > 0 ? '₹' . number_format($event->price, 2) : 'Free' }}
                                 </span>
                                 <span class="text-xs text-gray-400 font-medium">
                                     {{ $event->rsvps->where('status','yes')->count() }} attending

@@ -52,7 +52,28 @@
         </div>
     </x-slot>
 
-    <div class="py-12 bg-gray-50 min-h-screen">
+    <div class="py-12 bg-gray-50 min-h-screen" x-data="{ success: {{ session('success') ? 'true' : 'false' }} }">
+        {{-- Success Animation --}}
+        <template x-if="success">
+            <div class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
+                <div class="animate-bounce-in bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-emerald-500/40">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-900 font-black text-xl tracking-tight">Booking Confirmed!</p>
+                        <p class="text-gray-500 text-sm font-medium">Your ticket is ready in 'My Tickets'</p>
+                    </div>
+                </div>
+                {{-- Simple CSS Confetti --}}
+                <div class="absolute inset-0 overflow-hidden">
+                    @foreach(range(1, 20) as $i)
+                        <div class="absolute w-2 h-2 bg-{{ ['emerald', 'blue', 'yellow', 'indigo', 'purple'][rand(0, 4)] }}-400 rounded-sm animate-confetti" style="left: {{ rand(0, 100) }}%; top: -10px; animation-delay: {{ rand(0, 3000) }}ms; opacity: 0;"></div>
+                    @endforeach
+                </div>
+            </div>
+        </template>
+
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-8">
             <!-- Event Hero -->
             <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100">
@@ -133,7 +154,7 @@
                                         <div>
                                             <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Ticket Price</p>
                                             <p class="text-gray-900 font-semibold mt-0.5">
-                                                {{ $event->price > 0 ? '$' . number_format($event->price, 2) : 'Free' }}
+                                                {{ $event->price > 0 ? '₹' . number_format($event->price, 2) : 'Free' }}
                                             </p>
                                         </div>
                                     </li>
@@ -196,7 +217,7 @@
                                         <div class="space-y-4">
                                             <div class="flex justify-between items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
                                                 <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Price</span>
-                                                <span class="text-xl font-black text-gray-900">${{ number_format($event->price, 2) }}</span>
+                                                <span class="text-xl font-black text-gray-900">₹{{ number_format($event->price, 2) }}</span>
                                             </div>
                                             <a href="{{ route('events.checkout', $event) }}" 
                                                class="block w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-center hover:bg-black transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 {{ $isFull ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
@@ -277,4 +298,18 @@
             </div>
         </div>
     </div>
+    <style>
+        @keyframes bounce-in {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .animate-bounce-in { animation: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-confetti { animation: confetti 3s linear forwards; }
+    </style>
 </x-app-layout>

@@ -24,6 +24,9 @@
                         <x-nav-link :href="route('bookmarks.index')" :active="request()->routeIs('bookmarks.*')">
                             {{ __('Bookmarks') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+                            {{ __('Tickets') }}
+                        </x-nav-link>
                         @if(Auth::user()->role === 'admin')
                             <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 {{ __('Admin Panel') }}

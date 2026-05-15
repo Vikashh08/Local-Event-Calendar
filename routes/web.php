@@ -37,10 +37,14 @@ Route::middleware('auth')->group(function () {
         // IMPORTANT: resource must be registered before the public wildcard show route
         Route::resource('events', EventController::class)->except(['index', 'show']);
 
-        // RSVPs
-        Route::get('/events/{event}/checkout', [RsvpController::class, 'checkout'])->name('events.checkout');
+        // RSVP & Checkout
         Route::post('/events/{event}/rsvp', [RsvpController::class, 'store'])->name('rsvps.store');
         Route::delete('/events/{event}/rsvp', [RsvpController::class, 'destroy'])->name('rsvps.destroy');
+        Route::get('/events/{event}/checkout', [RsvpController::class, 'checkout'])->name('events.checkout');
+
+        // Tickets
+        Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
+        Route::get('/tickets/{rsvp}', [TicketController::class, 'show'])->name('tickets.show');
 
         // Bookmarks
         Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
