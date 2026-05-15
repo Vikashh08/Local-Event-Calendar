@@ -72,6 +72,6 @@ class RsvpController extends Controller
     public function destroy(Event $event)
     {
         $event->rsvps()->where('user_id', Auth::id())->delete();
-        return back()->with('success', 'Your RSVP has been removed.');
+        return redirect()->route('events.show', $event)->with('cancelled', true);
     }
 }

@@ -10,6 +10,25 @@
         </div>
     </x-slot>
 
+    <!-- Page Load Shimmer Loader -->
+    <div id="page-loader" class="fixed inset-0 z-[200] bg-gray-50 flex flex-col items-center justify-center gap-6 transition-opacity duration-500">
+        <div class="relative w-20 h-20">
+            <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-gray-900 border-t-transparent rounded-full animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+            </div>
+        </div>
+        <div class="text-center">
+            <p class="text-gray-900 font-black uppercase tracking-widest text-sm">Secure Checkout</p>
+            <p class="text-gray-400 text-xs mt-1 font-medium">Preparing your booking...</p>
+        </div>
+        <!-- Shimmer skeleton below -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+            <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
+        </div>
+    </div>
+
     <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -204,10 +223,24 @@
         70%  { transform: scale(0.95); }
         100% { transform: scale(1); }
     }
-    @keyframes shimmerSlide {
-        from { transform: translateX(-100%); }
-        to   { transform: translateX(100%); }
+    @keyframes shimmer {
+        0%   { transform: translateX(-100%); }
+        100% { transform: translateX(200%); }
     }
     .animate-fade-up   { animation: fadeSlideUp 0.55s cubic-bezier(0.16,1,0.3,1) forwards; }
     .animate-bounce-in { animation: bounceIn   0.55s cubic-bezier(0.175,0.885,0.32,1.275) forwards; }
+    .animate-shimmer   { animation: shimmer 1.6s ease-in-out infinite; }
+    #page-loader { transition: opacity 0.5s ease; }
+    #page-loader.fade-out { opacity: 0; pointer-events: none; }
 </style>
+
+<script>
+    window.addEventListener('load', function () {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+            loader.classList.add('fade-out');
+            setTimeout(() => loader.remove(), 520);
+        }
+    });
+</script>
+

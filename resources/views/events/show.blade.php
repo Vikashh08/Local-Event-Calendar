@@ -52,7 +52,11 @@
         </div>
     </x-slot>
 
-    <div class="py-12 bg-gray-50 min-h-screen" x-data="{ success: {{ session('success') ? 'true' : 'false' }} }">
+    <div class="py-12 bg-gray-50 min-h-screen" x-data="{
+        success: {{ session('success') ? 'true' : 'false' }},
+        cancelled: {{ session('cancelled') ? 'true' : 'false' }},
+        showCancelDialog: false
+    }">
         {{-- Success Animation --}}
         <template x-if="success">
             <div class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
@@ -70,6 +74,24 @@
                     @foreach(range(1, 20) as $i)
                         <div class="absolute w-2 h-2 bg-{{ ['emerald', 'blue', 'yellow', 'indigo', 'purple'][rand(0, 4)] }}-400 rounded-sm animate-confetti" style="left: {{ rand(0, 100) }}%; top: -10px; animation-delay: {{ rand(0, 3000) }}ms; opacity: 0;"></div>
                     @endforeach
+                </div>
+            </div>
+        </template>
+
+        {{-- Cancellation Toast --}}
+        <template x-if="cancelled">
+            <div class="fixed top-6 right-6 z-[110] animate-slide-in-right" x-init="setTimeout(() => cancelled = false, 4000)">
+                <div class="flex items-center gap-4 bg-white border border-red-100 shadow-2xl rounded-2xl px-5 py-4 max-w-sm">
+                    <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-gray-900 font-black text-sm">Registration Cancelled</p>
+                        <p class="text-gray-400 text-xs mt-0.5">Your booking has been removed.</p>
+                    </div>
+                    <button @click="cancelled = false" class="ml-auto text-gray-300 hover:text-gray-600 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
             </div>
         </template>
@@ -287,13 +309,41 @@
                                     @endif
 
                                     @if($userRsvp)
-                                        <form action="{{ route('rsvps.destroy', $event) }}" method="POST" class="mt-4 text-center">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-[10px] font-black text-gray-400 hover:text-red-500 uppercase tracking-widest transition-colors">
+                                        {{-- Cancel Confirmation Dialog --}}
+                                        <div x-show="showCancelDialog" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                                             class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/70 backdrop-blur-sm"
+                                             @click.self="showCancelDialog = false">
+                                            <div class="bg-white rounded-3xl p-8 shadow-2xl max-w-sm w-full mx-4">
+                                                <div class="flex flex-col items-center text-center gap-4">
+                                                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center">
+                                                        <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="text-gray-900 font-black text-lg tracking-tight">Cancel Registration?</h4>
+                                                        <p class="text-gray-500 text-sm mt-1">Are you sure you want to cancel your registration for <strong>{{ $event->title }}</strong>? This action cannot be undone.</p>
+                                                    </div>
+                                                    <div class="flex gap-3 w-full mt-2">
+                                                        <button @click="showCancelDialog = false" class="flex-1 py-3 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all">
+                                                            Keep it
+                                                        </button>
+                                                        <form action="{{ route('rsvps.destroy', $event) }}" method="POST" class="flex-1">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="w-full py-3 bg-red-500 hover:bg-red-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-md">
+                                                                Yes, Cancel
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 text-center">
+                                            <button @click="showCancelDialog = true" class="text-[10px] font-black text-gray-400 hover:text-red-500 uppercase tracking-widest transition-colors inline-flex items-center gap-1">
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                 Cancel Registration
                                             </button>
-                                        </form>
+                                        </div>
                                     @endif
                                 @else
                                     <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center">
@@ -346,7 +396,12 @@
             0% { transform: translateY(0) rotate(0); opacity: 1; }
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
-        .animate-bounce-in { animation: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .animate-confetti { animation: confetti 3s linear forwards; }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .animate-bounce-in  { animation: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-confetti   { animation: confetti 3s linear forwards; }
+        .animate-slide-in-right { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </x-app-layout>
