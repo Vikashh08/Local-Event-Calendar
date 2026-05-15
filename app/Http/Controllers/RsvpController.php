@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class RsvpController extends Controller
 {
+    public function checkout(Event $event)
+    {
+        // Check if event is full
+        $yesCount = $event->rsvps()->where('status', 'yes')->count();
+        if ($event->capacity && $yesCount >= $event->capacity) {
+            return redirect()->route('events.show', $event)->with('error', 'This event is full.');
+        }
+
+        // Check if user already has a 'yes' RSVP
+        $userRsvp = $event->rsvps()->where('user_id', Auth::id())->first();
+        if ($userRsvp && $userRsvp->status === 'yes') {
+            return redirect()->route('events.show', $event)->with('info', 'You are already registered for this event.');
+        }
+
+        return view('events.checkout', compact('event'));
+    }
+
     public function store(Request $request, Event $event)
     {
         $request->validate([
@@ -49,7 +66,7 @@ class RsvpController extends Controller
             Auth::user()->notify(new RsvpConfirmed($event));
         }
 
-        return back()->with('success', 'Your RSVP has been recorded.');
+        return redirect()->route('events.show', $event)->with('success', 'Your booking has been confirmed!');
     }
 
     public function destroy(Event $event)

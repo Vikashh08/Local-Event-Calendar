@@ -179,72 +179,71 @@
                                     @endif
 
                                     @if($userRsvp?->status === 'yes' && $event->price > 0)
-                                        <div class="mb-3 p-2.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
-                                            <span class="text-gray-500 font-medium">Ticket Booking:</span>
-                                            <span class="font-bold text-emerald-600 flex items-center gap-1">
-                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                                Paid via {{ ucwords(str_replace('_', ' ', $userRsvp->payment_method ?? 'card')) }}
+                                        <div class="mb-4 p-3 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center justify-between text-xs">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-6 h-6 bg-emerald-500 rounded-lg flex items-center justify-center text-white">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                </div>
+                                                <span class="text-emerald-900 font-bold">Ticket Booked</span>
+                                            </div>
+                                            <span class="text-emerald-600 font-black uppercase tracking-widest text-[9px]">
+                                                ID: {{ substr($userRsvp->payment_id, 0, 8) }}...
                                             </span>
                                         </div>
                                     @endif
 
-                                    <form action="{{ route('rsvps.store', $event) }}" method="POST" class="space-y-2.5">
-                                        @csrf
-                                        @if($event->price > 0 && $userRsvp?->status !== 'yes')
-                                            <div class="border-t border-b border-gray-100 py-3 my-2 space-y-2">
-                                                <div class="flex justify-between items-center text-[11px]">
-                                                    <span class="font-bold uppercase tracking-wider text-gray-400">Total Due</span>
-                                                    <span class="font-black text-gray-900">${{ number_format($event->price, 2) }}</span>
-                                                </div>
-                                                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 pt-1">Select Payment Method</label>
-                                                <div class="grid grid-cols-3 gap-2">
-                                                    <label class="flex flex-col items-center justify-center p-2 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-all has-[:checked]:border-gray-900 has-[:checked]:bg-gray-50/50">
-                                                        <input type="radio" name="payment_method" value="credit_card" checked class="hidden">
-                                                        <svg class="w-4 h-4 text-gray-700 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                                                        <span class="text-[10px] font-bold text-gray-800">Card</span>
-                                                    </label>
-                                                    <label class="flex flex-col items-center justify-center p-2 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-all has-[:checked]:border-gray-900 has-[:checked]:bg-gray-50/50">
-                                                        <input type="radio" name="payment_method" value="paypal" class="hidden">
-                                                        <svg class="w-4 h-4 text-blue-600 mb-1" fill="currentColor" viewBox="0 0 24 24"><path d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.934 3.09A1.282 1.282 0 016.188 2.2h6.588c2.812 0 4.981.42 6.005 1.583 1.05 1.192 1.24 2.894.61 4.805-.51 1.547-1.46 2.846-2.73 3.682-1.12.738-2.58.988-4.22.988h-1.61c-.51 0-.94.381-1.02.885l-.94 5.378-.4 2.298a.64.64 0 01-.633.518z"/></svg>
-                                                        <span class="text-[10px] font-bold text-gray-800">PayPal</span>
-                                                    </label>
-                                                    <label class="flex flex-col items-center justify-center p-2 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-all has-[:checked]:border-gray-900 has-[:checked]:bg-gray-50/50">
-                                                        <input type="radio" name="payment_method" value="apple_pay" class="hidden">
-                                                        <svg class="w-4 h-4 text-black mb-1" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.05-1.04.04-2.19.69-2.88 1.5-.6.69-1.11 1.83-.97 2.93 1.16.09 2.2-.59 2.86-1.38z"/></svg>
-                                                        <span class="text-[10px] font-bold text-gray-800">Apple Pay</span>
-                                                    </label>
-                                                </div>
+                                    @if($event->price > 0 && $userRsvp?->status !== 'yes')
+                                        <div class="space-y-4">
+                                            <div class="flex justify-between items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Price</span>
+                                                <span class="text-xl font-black text-gray-900">${{ number_format($event->price, 2) }}</span>
                                             </div>
-                                        @endif
-
-                                        <button type="submit" name="status" value="yes" {{ $isFull && $userRsvp?->status !== 'yes' ? 'disabled' : '' }}
-                                                class="w-full relative flex items-center justify-center px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all {{ $userRsvp?->status === 'yes' ? 'bg-gray-900 text-white shadow-md' : ($isFull ? 'bg-gray-50 text-gray-400 border border-gray-200 cursor-not-allowed' : 'bg-white text-gray-800 border border-gray-200 hover:bg-gray-50') }}">
-                                            @if($userRsvp?->status === 'yes') <span class="absolute left-3 w-2 h-2 bg-emerald-400 rounded-full"></span> @endif
-                                            {{ $event->price > 0 && $userRsvp?->status !== 'yes' ? 'Book Ticket & Pay' : "Yes, I'm going" }}
-                                        </button>
-                                        <div class="grid grid-cols-2 gap-2.5">
-                                            <button type="submit" name="status" value="maybe"
-                                                    class="relative flex items-center justify-center px-3 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all {{ $userRsvp?->status === 'maybe' ? 'bg-yellow-500 text-white shadow-sm' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50' }}">
-                                                @if($userRsvp?->status === 'maybe') <span class="absolute left-2 w-1.5 h-1.5 bg-white rounded-full"></span> @endif
-                                                Maybe
-                                            </button>
-                                            <button type="submit" name="status" value="no"
-                                                    class="relative flex items-center justify-center px-3 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all {{ $userRsvp?->status === 'no' ? 'bg-red-500 text-white shadow-sm' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50' }}">
-                                                @if($userRsvp?->status === 'no') <span class="absolute left-2 w-1.5 h-1.5 bg-white rounded-full"></span> @endif
-                                                Can't go
-                                            </button>
+                                            <a href="{{ route('events.checkout', $event) }}" 
+                                               class="block w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-center hover:bg-black transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 {{ $isFull ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
+                                                {{ $isFull ? 'Event Full' : 'Book Ticket Now' }}
+                                            </a>
+                                            <p class="text-[10px] text-center text-gray-400 font-medium uppercase tracking-widest">Secure checkout via LECS Pay</p>
                                         </div>
-                                    </form>
+                                    @else
+                                        <form action="{{ route('rsvps.store', $event) }}" method="POST" class="space-y-2.5">
+                                            @csrf
+                                            <button type="submit" name="status" value="yes" {{ $isFull && $userRsvp?->status !== 'yes' ? 'disabled' : '' }}
+                                                    class="w-full relative flex items-center justify-center px-4 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all {{ $userRsvp?->status === 'yes' ? 'bg-gray-900 text-white shadow-lg' : ($isFull ? 'bg-gray-50 text-gray-400 border border-gray-200 cursor-not-allowed' : 'bg-white text-gray-900 border-2 border-gray-100 hover:border-gray-900 transition-colors') }}">
+                                                @if($userRsvp?->status === 'yes') <span class="absolute left-4 w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> @endif
+                                                {{ $userRsvp?->status === 'yes' ? 'Attending' : 'Yes, I\'m going' }}
+                                            </button>
+                                            
+                                            <div class="grid grid-cols-2 gap-2.5">
+                                                <button type="submit" name="status" value="maybe"
+                                                        class="relative flex items-center justify-center px-3 py-2.5 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all {{ $userRsvp?->status === 'maybe' ? 'bg-yellow-500 text-white shadow-md' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50' }}">
+                                                    @if($userRsvp?->status === 'maybe') <span class="absolute left-2.5 w-1.5 h-1.5 bg-white rounded-full"></span> @endif
+                                                    Maybe
+                                                </button>
+                                                <button type="submit" name="status" value="no"
+                                                        class="relative flex items-center justify-center px-3 py-2.5 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all {{ $userRsvp?->status === 'no' ? 'bg-red-500 text-white shadow-md' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50' }}">
+                                                    @if($userRsvp?->status === 'no') <span class="absolute left-2.5 w-1.5 h-1.5 bg-white rounded-full"></span> @endif
+                                                    Can't go
+                                                </button>
+                                            </div>
+                                        </form>
+                                    @endif
+
                                     @if($userRsvp)
-                                        <form action="{{ route('rsvps.destroy', $event) }}" method="POST" class="mt-3 text-center">
+                                        <form action="{{ route('rsvps.destroy', $event) }}" method="POST" class="mt-4 text-center">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-xs text-gray-400 hover:text-gray-600 underline">Clear RSVP</button>
+                                            <button type="submit" class="text-[10px] font-black text-gray-400 hover:text-red-500 uppercase tracking-widest transition-colors">
+                                                Cancel Registration
+                                            </button>
                                         </form>
                                     @endif
                                 @else
-                                    <p class="text-gray-500 text-xs mb-3">Log in to confirm your spot for this event.</p>
-                                    <a href="{{ route('login') }}" class="block w-full text-center py-2.5 bg-gray-900 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-black transition-all">Sign in to RSVP</a>
+                                    <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center">
+                                        <p class="text-gray-500 text-xs font-medium mb-4">Sign in to book your spot for this event.</p>
+                                        <a href="{{ route('login') }}" class="block w-full py-3 bg-gray-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-black transition-all shadow-md">
+                                            Log In to Book
+                                        </a>
+                                    </div>
                                 @endauth
                             </div>
                             

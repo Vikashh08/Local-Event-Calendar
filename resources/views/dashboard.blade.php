@@ -111,7 +111,15 @@
 
                                         {{-- Content --}}
                                         <div class="p-4">
-                                            <h3 class="text-sm font-bold text-gray-900 mb-1.5 leading-snug line-clamp-2 group-hover:text-gray-700 transition-colors">{{ $event->title }}</h3>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <h3 class="text-sm font-bold text-gray-900 leading-snug line-clamp-1 group-hover:text-gray-700 transition-colors">{{ $event->title }}</h3>
+                                                @if($rsvp->payment_status === 'paid')
+                                                    <span class="flex items-center gap-1 text-[9px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100/50">
+                                                        <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                                        Paid
+                                                    </span>
+                                                @endif
+                                            </div>
                                             <div class="flex items-center gap-2 text-[11px] text-gray-400 mb-2 pr-2">
                                                 <span class="flex items-center gap-1 shrink-0">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

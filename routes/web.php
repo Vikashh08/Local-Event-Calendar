@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('events', EventController::class)->except(['index', 'show']);
 
         // RSVPs
+        Route::get('/events/{event}/checkout', [RsvpController::class, 'checkout'])->name('events.checkout');
         Route::post('/events/{event}/rsvp', [RsvpController::class, 'store'])->name('rsvps.store');
         Route::delete('/events/{event}/rsvp', [RsvpController::class, 'destroy'])->name('rsvps.destroy');
 
