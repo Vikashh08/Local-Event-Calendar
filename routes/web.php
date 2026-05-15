@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\AdminRegisterController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\Event;
