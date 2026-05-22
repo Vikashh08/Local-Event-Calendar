@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
         // Event Management (Organizers/Admins)
         Route::get('/events/{event}/attendees', [EventController::class, 'attendees'])->name('events.attendees');
+        Route::get('/events/{event}/export', [EventController::class, 'exportAttendees'])->name('events.export');
         // IMPORTANT: resource must be registered before the public wildcard show route
         Route::resource('events', EventController::class)->except(['index', 'show']);
 
@@ -57,6 +58,10 @@ Route::middleware('auth')->group(function () {
         Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateRole'])->name('admin.users.role');
         Route::patch('/admin/users/{user}/block', [AdminController::class, 'toggleBlock'])->name('admin.users.block');
         Route::patch('/admin/events/{event}/status', [AdminController::class, 'updateEventStatus'])->name('admin.events.status');
+        
+        Route::post('/admin/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
+        Route::patch('/admin/categories/{category}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
+        Route::delete('/admin/categories/{category}', [AdminController::class, 'destroyCategory'])->name('admin.categories.destroy');
 
 });
 

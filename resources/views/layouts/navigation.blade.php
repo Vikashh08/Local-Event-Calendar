@@ -17,16 +17,20 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endauth
-                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
-                        {{ __('Events') }}
-                    </x-nav-link>
                     @auth
-                        <x-nav-link :href="route('bookmarks.index')" :active="request()->routeIs('bookmarks.*')">
-                            {{ __('Bookmarks') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
-                            {{ __('Tickets') }}
-                        </x-nav-link>
+                        @if(Auth::user()->role !== 'admin')
+                            <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
+                                {{ __('Events') }}
+                            </x-nav-link>
+                        @endif
+                        @if(Auth::user()->role === 'user')
+                            <x-nav-link :href="route('bookmarks.index')" :active="request()->routeIs('bookmarks.*')">
+                                {{ __('Bookmarks') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+                                {{ __('Tickets') }}
+                            </x-nav-link>
+                        @endif
                         @if(Auth::user()->role === 'admin')
                             <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 {{ __('Admin Panel') }}
@@ -93,13 +97,20 @@
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
             @endauth
-            <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
-                {{ __('Events') }}
-            </x-responsive-nav-link>
             @auth
-                <x-responsive-nav-link :href="route('bookmarks.index')" :active="request()->routeIs('bookmarks.*')">
-                    {{ __('Bookmarks') }}
-                </x-responsive-nav-link>
+                @if(Auth::user()->role !== 'admin')
+                    <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
+                        {{ __('Events') }}
+                    </x-responsive-nav-link>
+                @endif
+                @if(Auth::user()->role === 'user')
+                    <x-responsive-nav-link :href="route('bookmarks.index')" :active="request()->routeIs('bookmarks.*')">
+                        {{ __('Bookmarks') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+                        {{ __('Tickets') }}
+                    </x-responsive-nav-link>
+                @endif
                 @if(Auth::user()->role === 'admin')
                     <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Admin Panel') }}

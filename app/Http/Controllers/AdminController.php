@@ -27,8 +27,17 @@ class AdminController extends Controller
             ->get();
 
         $users = User::all();
+        
+        $categories = \App\Models\Category::withCount('events')->get();
 
-        return view('admin.dashboard', compact('pendingEvents', 'approvedEvents', 'users'));
+        $stats = [
+            'total_users' => User::count(),
+            'total_events' => Event::where('status', 'approved')->count(),
+            'pending_events' => $pendingEvents->count(),
+            'total_rsvps' => \App\Models\Rsvp::where('status', 'yes')->count(),
+        ];
+
+        return view('admin.dashboard', compact('pendingEvents', 'approvedEvents', 'users', 'stats', 'categories'));
     }
 
     public function updateRole(Request $request, User $user)
@@ -75,5 +84,58 @@ class AdminController extends Controller
 
         $status = $user->is_blocked ? 'blocked' : 'unblocked';
         return back()->with('success', "User has been {$status}.");
+    }
+
+    public function storeCategory(Request $request)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => $request->name,
+            'slug' => \Illuminate\Support\Str::slug($request->name)
+        ]);
+
+        return back()->with('success', 'Category created successfully.');
+    }
+
+    public function updateCategory(Request $request, \App\Models\Category $category)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id
+        ]);
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => \Illuminate\Support\Str::slug($request->name)
+        ]);
+
+        return back()->with('success', 'Category updated successfully.');
+    }
+
+    public function destroyCategory(\App\Models\Category $category)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
+        // Optional: Ensure no events are using this category before deleting,
+        // or let the database foreign key constraints handle it.
+        if ($category->events()->count() > 0) {
+            return back()->with('error', 'Cannot delete category that is assigned to events.');
+        }
+
+        $category->delete();
+
+        return back()->with('success', 'Category deleted successfully.');
     }
 }
