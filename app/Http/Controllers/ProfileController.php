@@ -16,8 +16,32 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        $stats = [];
+
+        if ($user->role === 'organizer') {
+            $events = $user->events()->with('rsvps')->get();
+            $stats = [
+                'events_count' => $events->count(),
+                'attendees_count' => $events->sum(fn($e) => $e->rsvps->where('status', 'yes')->count()),
+                'revenue' => $events->sum(fn($e) => $e->rsvps->where('status', 'yes')->count() * $e->price),
+            ];
+        } elseif ($user->role === 'admin') {
+            $stats = [
+                'total_events' => \App\Models\Event::count(),
+                'total_users' => \App\Models\User::count(),
+            ];
+        } else {
+            // Attendee
+            $stats = [
+                'rsvps_count' => $user->rsvps()->where('status', 'yes')->count(),
+                'bookmarks_count' => $user->bookmarks()->count(),
+            ];
+        }
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'stats' => $stats,
         ]);
     }
 
