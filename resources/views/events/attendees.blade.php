@@ -16,7 +16,15 @@
             {{-- Header Card --}}
             <div class="bg-gray-900 rounded-3xl p-8 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <p class="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-1">Attendee List</p>
+                    <div class="flex items-center gap-3 mb-1">
+                        <p class="text-gray-400 text-xs font-semibold uppercase tracking-widest">Attendee List</p>
+                        @if($event->rsvps->where('status', 'yes')->isNotEmpty())
+                            <a href="{{ route('events.export', $event) }}" class="inline-flex items-center px-3 py-1 bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold uppercase tracking-widest rounded-full transition-colors border border-white/10">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                Export CSV
+                            </a>
+                        @endif
+                    </div>
                     <h3 class="text-2xl font-black tracking-tight">{{ $event->title }}</h3>
                     <p class="text-gray-300 text-sm mt-1">{{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y') }}</p>
                 </div>

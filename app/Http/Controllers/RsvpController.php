@@ -11,6 +11,10 @@ class RsvpController extends Controller
 {
     public function checkout(Event $event)
     {
+        if (Auth::user()->role === 'organizer') {
+            return redirect()->route('events.show', $event)->with('error', 'Organizers cannot book tickets.');
+        }
+
         // Check if event is full
         $yesCount = $event->rsvps()->where('status', 'yes')->count();
         if ($event->capacity && $yesCount >= $event->capacity) {
@@ -28,6 +32,10 @@ class RsvpController extends Controller
 
     public function store(Request $request, Event $event)
     {
+        if (Auth::user()->role === 'organizer') {
+            return redirect()->route('events.show', $event)->with('error', 'Organizers cannot book tickets.');
+        }
+
         $request->validate([
             'status' => 'required|in:yes,no,maybe',
             'payment_method' => 'nullable|string',

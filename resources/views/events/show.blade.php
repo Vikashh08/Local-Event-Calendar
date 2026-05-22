@@ -203,7 +203,15 @@
                             <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                                 <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">RSVP Status</h4>
                                 @auth
-                                    @php
+                                    @if(Auth::user()->role === 'organizer')
+                                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center">
+                                            <div class="w-10 h-10 bg-white rounded-full mx-auto mb-2 flex items-center justify-center shadow-sm">
+                                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                            </div>
+                                            <p class="text-gray-500 text-xs font-medium">As an organizer, you cannot book tickets for events.</p>
+                                        </div>
+                                    @else
+                                        @php
                                         $userRsvp = Auth::user()->rsvps()->where('event_id', $event->id)->first();
                                         $yesCount = $event->rsvps->where('status', 'yes')->count();
                                         $isFull = $event->capacity && $yesCount >= $event->capacity;
@@ -262,29 +270,7 @@
                                         <form action="{{ route('rsvps.store', $event) }}" method="POST" class="space-y-2.5" x-data="{ submitting: false, which: '' }" @submit="submitting = true">
                                             @csrf
 
-                                            {{-- Processing overlay for free RSVP --}}
-                                            <template x-if="submitting">
-                                                <div class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/75 backdrop-blur-md">
-                                                    <div class="bg-white rounded-3xl p-10 flex flex-col items-center gap-5 shadow-2xl max-w-xs w-full mx-4 animate-bounce-in">
-                                                        <div class="relative w-20 h-20">
-                                                            <div class="absolute inset-0 border-4 border-gray-100 rounded-full"></div>
-                                                            <div class="absolute inset-0 border-4 border-gray-900 border-t-transparent rounded-full animate-spin"></div>
-                                                            <div class="absolute inset-0 flex items-center justify-center">
-                                                                <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <p class="text-gray-900 font-black text-lg tracking-tight">Saving your RSVP</p>
-                                                            <p class="text-gray-400 text-sm mt-1">Just a moment...</p>
-                                                        </div>
-                                                        <div class="flex gap-1.5">
-                                                            <div class="w-2 h-2 bg-gray-900 rounded-full animate-bounce" style="animation-delay:0ms"></div>
-                                                            <div class="w-2 h-2 bg-gray-900 rounded-full animate-bounce" style="animation-delay:150ms"></div>
-                                                            <div class="w-2 h-2 bg-gray-900 rounded-full animate-bounce" style="animation-delay:300ms"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </template>
+
 
                                             <button type="submit" name="status" value="yes" {{ $isFull && $userRsvp?->status !== 'yes' ? 'disabled' : '' }}
                                                     @click="which = 'yes'"
@@ -344,6 +330,7 @@
                                                 Cancel Registration
                                             </button>
                                         </div>
+                                    @endif
                                     @endif
                                 @else
                                     <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center">

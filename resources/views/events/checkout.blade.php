@@ -10,24 +10,6 @@
         </div>
     </x-slot>
 
-    <!-- Page Load Shimmer Loader -->
-    <div id="page-loader" class="fixed inset-0 z-[200] bg-gray-50 flex flex-col items-center justify-center gap-6 transition-opacity duration-500">
-        <div class="relative w-20 h-20">
-            <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
-            <div class="absolute inset-0 border-4 border-gray-900 border-t-transparent rounded-full animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
-            </div>
-        </div>
-        <div class="text-center">
-            <p class="text-gray-900 font-black uppercase tracking-widest text-sm">Secure Checkout</p>
-            <p class="text-gray-400 text-xs mt-1 font-medium">Preparing your booking...</p>
-        </div>
-        <!-- Shimmer skeleton below -->
-        <div class="absolute inset-0 pointer-events-none overflow-hidden">
-            <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
-        </div>
-    </div>
 
     <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
@@ -43,31 +25,6 @@
                                 @csrf
                                 <input type="hidden" name="status" value="yes">
 
-                                <!-- Processing Overlay -->
-                                <template x-if="isProcessing">
-                                    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/80 backdrop-blur-md transition-opacity">
-                                        <div class="bg-white rounded-3xl p-10 flex flex-col items-center gap-6 shadow-2xl max-w-sm w-full mx-4 animate-fade-up">
-                                            <div class="relative w-24 h-24">
-                                                <!-- Outer spinning ring -->
-                                                <div class="absolute inset-0 border-4 border-gray-100 rounded-full"></div>
-                                                <div class="absolute inset-0 border-4 border-gray-900 rounded-full border-t-transparent animate-spin"></div>
-                                                <!-- Inner pulsing lock icon -->
-                                                <div class="absolute inset-0 flex items-center justify-center">
-                                                    <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center">
-                                                        <svg class="w-6 h-6 text-gray-900 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <h3 class="text-xl font-black text-gray-900 tracking-tight mb-2">Processing Payment</h3>
-                                                <p class="text-sm font-medium text-gray-500">Securely completing your booking. Please do not close this window.</p>
-                                            </div>
-                                            <div class="w-full bg-gray-100 rounded-full h-1 overflow-hidden mt-2">
-                                                <div class="bg-gray-900 h-full rounded-full animate-pulse" style="width: 100%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
 
                                 <div class="space-y-4">
                                     <label class="relative flex items-center p-4 rounded-2xl border-2 border-gray-100 cursor-pointer hover:bg-gray-50 transition-all has-[:checked]:border-gray-900 has-[:checked]:bg-gray-50/50 group">
@@ -234,13 +191,5 @@
     #page-loader.fade-out { opacity: 0; pointer-events: none; }
 </style>
 
-<script>
-    window.addEventListener('load', function () {
-        const loader = document.getElementById('page-loader');
-        if (loader) {
-            loader.classList.add('fade-out');
-            setTimeout(() => loader.remove(), 520);
-        }
-    });
-</script>
+
 

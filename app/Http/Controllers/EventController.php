@@ -151,4 +151,42 @@ class EventController extends Controller
 
         return view('events.attendees', compact('event'));
     }
+
+    /**
+     * Export attendees to CSV.
+     */
+    public function exportAttendees(Event $event)
+    {
+        if (!Auth::user()->can('update', $event)) {
+            return redirect()->route('events.index')->with('error', 'Unauthorized action.');
+        }
+
+        $rsvps = $event->rsvps()->with('user')->where('status', 'yes')->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=attendees_{$event->id}.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() use($rsvps) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Name', 'Email', 'Ticket Type', 'Booking Date', 'Payment Status']);
+
+            foreach ($rsvps as $rsvp) {
+                fputcsv($file, [
+                    $rsvp->user->name,
+                    $rsvp->user->email,
+                    $rsvp->payment_method ? 'Paid' : 'Free',
+                    $rsvp->created_at->format('Y-m-d H:i:s'),
+                    $rsvp->payment_status ?? 'N/A'
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
