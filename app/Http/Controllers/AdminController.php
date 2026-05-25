@@ -26,6 +26,11 @@ class AdminController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
+        $allEvents = Event::with('user', 'category')
+            ->withCount('rsvps')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         $users = User::all();
         
         $categories = \App\Models\Category::withCount('events')->get();
@@ -37,7 +42,7 @@ class AdminController extends Controller
             'total_rsvps' => \App\Models\Rsvp::where('status', 'yes')->count(),
         ];
 
-        return view('admin.dashboard', compact('pendingEvents', 'approvedEvents', 'users', 'stats', 'categories'));
+        return view('admin.dashboard', compact('pendingEvents', 'approvedEvents', 'allEvents', 'users', 'stats', 'categories'));
     }
 
     public function updateRole(Request $request, User $user)

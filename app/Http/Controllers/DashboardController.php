@@ -43,7 +43,6 @@ class DashboardController extends Controller
         // For regular users (attendees)
         $rsvps = $user->rsvps()
             ->with(['event.category'])
-            ->whereHas('event', fn($q) => $q->whereDate('date', '>=', now()))
             ->orderBy('created_at', 'desc')
             ->get();
 

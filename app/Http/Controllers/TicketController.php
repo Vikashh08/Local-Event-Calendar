@@ -16,9 +16,6 @@ class TicketController extends Controller
         $tickets = Auth::user()->rsvps()
             ->where('status', 'yes')
             ->with('event.category')
-            ->whereHas('event', function($query) {
-                $query->whereDate('date', '>=', now()->subDays(1));
-            })
             ->orderBy('created_at', 'desc')
             ->get();
 
