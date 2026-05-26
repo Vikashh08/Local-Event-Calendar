@@ -15,7 +15,12 @@ use App\Models\Event;
 use App\Models\Category;
 
 Route::get('/', function () {
-    $upcomingEvents = Event::approved()->with('category')->whereDate('date', '>=', now())->orderBy('date', 'asc')->take(6)->get();
+    $upcomingEvents = Event::approved()->with(['category', 'rsvps'])->whereDate('date', '>=', now())->orderBy('date', 'asc')->take(6)->get();
+    
+    if ($upcomingEvents->isEmpty()) {
+        $upcomingEvents = Event::approved()->with(['category', 'rsvps'])->orderBy('date', 'desc')->take(6)->get();
+    }
+    
     $categories = Category::all();
     return view('welcome', compact('upcomingEvents', 'categories'));
 })->name('home');
