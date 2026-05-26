@@ -10,8 +10,7 @@ cmds = [
 
 [phases.build]
 cmds = [
-  'npm run build',
-  'php artisan key:generate --force'
+  'npm run build'
 ]
 
 [variables]
